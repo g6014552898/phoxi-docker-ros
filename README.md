@@ -10,7 +10,7 @@ Select a desired Ubuntu 18.04 installer and copy it to the `context/installer/ph
 Once the installer is present, proceed with the image build process:
 
 ```bash
-DOCKER_BUILDKIT=1 docker build -t "photoneo/phoxicontrol:latest" -f Dockerfile context
+DOCKER_BUILDKIT=1 docker build -t "phoxi_ros:latest" -f Dockerfile context
 ```
 
 
