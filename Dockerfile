@@ -5,7 +5,7 @@ USER root
 RUN set -eux \
     && mkdir -p /root/catkin_ws/src && cd /root/catkin_ws/src && \
     /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_init_workspace && \
-    cd /root/catkin_ws && catkin_make \
+    cd /root/catkin_ws && catkin_make" \
     && apt-get update -y \
     && apt-get install -y -q software-properties-common && apt-add-repository universe \
     && apt-get update -y \
