@@ -1,7 +1,4 @@
----
-
 version: "3.6"
-
 services:
   phoxicontrol:
     build:
@@ -9,13 +6,14 @@ services:
       dockerfile: $PWD/Dockerfile
       # args:
       #   buildno: 1
-    image: photoneo/phoxicontrol:latest
+    image: phoxi_ros:latest
     devices:
       - /dev/dri:/dev/dri
     volumes:
       - /tmp/.X11-unix/:/tmp/.X11-unix
       - /var/run/dbus:/var/run/dbus
       - /dev/shm:/dev/shm
+      - $PWD/context/phoxi_camera:/root/catkin_ws/src/phoxi_camera
     privileged: true
     environment:
       - DISPLAY
@@ -29,3 +27,4 @@ services:
       driver: journald
       options:
         tag: '{{.ImageID}}/{{.Name}}/{{.ID}}'
+    command: /bin/bash -c "cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash && catkin_make && source ~/catkin_ws/devel/setup.bash && PhoXiControl | roslaunch phoxi_camera phoxi_camera.launch"
