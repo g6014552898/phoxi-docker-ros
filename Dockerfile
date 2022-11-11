@@ -1,8 +1,11 @@
-FROM ubuntu:18.04
+FROM ros:melodic-perception
 
 USER root
 
 RUN set -eux \
+    && mkdir -p /root/catkin_ws/src && cd /root/catkin_ws/src && \
+    /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_init_workspace && \
+    cd /root/catkin_ws && catkin_make \
     && apt-get update -y \
     && apt-get install -y -q software-properties-common && apt-add-repository universe \
     && apt-get update -y \
@@ -11,6 +14,7 @@ RUN set -eux \
 
 COPY installer/phoxi.run /tmp/phoxi.run
 COPY system_files/PhoXiControl /usr/local/bin/PhoXiControl
+COPY phoxi_camera /root/catkin_ws/src/phoxi_camera
 
 ENV PHOXI_CONTROL_PATH="/opt/Photoneo/PhoXiControl"
 
@@ -18,10 +22,7 @@ RUN set -eux \
     && cd /tmp \
     && chmod a+x phoxi.run \
     && ./phoxi.run --accept ${PHOXI_CONTROL_PATH} \
-    && rm -rf phoxi.run
-
-# TODO: this is a bug SCAN-3548
-RUN set -eux \
-    && mkdir /root/.PhotoneoPhoXiControl
-
-CMD ["/usr/local/bin/PhoXiControl"]
+    && rm -rf phoxi.run \
+    && /bin/bash -c "source /root/catkin_ws/devel/setup.bash && cd /root/catkin_ws  && rosdep update && rosdep install --from-paths src --ignore-src -r -y && catkin_make && source /root/catkin_ws/devel/setup.bash" &&\
+    apt-get autoremove -y && rm -rf /var/lib/apt/lists/ && mkdir /root/.PhotoneoPhoXiControl
+    
