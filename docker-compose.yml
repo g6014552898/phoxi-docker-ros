@@ -22,6 +22,7 @@ services:
       - QT_X11_NO_MITSHM=1
       - SHELL
       #- LIBGL_ALWAYS_INDIRECT=1
+      - PHOXI_WITHOUT_DISPLAY=ON
     stop_signal: SIGKILL
     security_opt:
       - apparmor=unconfined
@@ -30,4 +31,4 @@ services:
       options:
         tag: '{{.ImageID}}/{{.Name}}/{{.ID}}'
 
-    #command: /bin/bash -c "cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash && catkin_make && source ~/catkin_ws/devel/setup.bash && /opt/Photoneo/PhoXiControl/bin/PhoXiControl | roslaunch phoxi_camera phoxi_camera.launch"
+    command: /bin/bash -c "cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash && catkin_make && source ~/catkin_ws/devel/setup.bash && /opt/Photoneo/PhoXiControl/bin/PhoXiControl | roslaunch phoxi_camera phoxi_camera.launch"
