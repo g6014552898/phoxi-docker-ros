@@ -1,4 +1,5 @@
 version: "3.6"
+# Tested on 22.04: work!, 20.04 not work :(
 services:
   phoxicontrol:
     build:
@@ -20,6 +21,7 @@ services:
       - DOCKER=1
       - QT_X11_NO_MITSHM=1
       - SHELL
+      #- LIBGL_ALWAYS_INDIRECT=1
     stop_signal: SIGKILL
     security_opt:
       - apparmor=unconfined
@@ -27,4 +29,5 @@ services:
       driver: journald
       options:
         tag: '{{.ImageID}}/{{.Name}}/{{.ID}}'
-    command: /bin/bash -c "cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash && catkin_make && source ~/catkin_ws/devel/setup.bash && PhoXiControl | roslaunch phoxi_camera phoxi_camera.launch"
+
+    #command: /bin/bash -c "cd ~/catkin_ws && source ~/catkin_ws/devel/setup.bash && catkin_make && source ~/catkin_ws/devel/setup.bash && /opt/Photoneo/PhoXiControl/bin/PhoXiControl | roslaunch phoxi_camera phoxi_camera.launch"
